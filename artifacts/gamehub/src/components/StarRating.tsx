@@ -1,9 +1,10 @@
 import { Star } from "lucide-react";
 
 export function StarRating({ rating }: { rating: number }) {
-  const fullStars = Math.floor(rating);
-  const hasHalfStar = rating % 1 >= 0.5;
-  const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+  const safeRating = Math.min(5, Math.max(0, isFinite(rating) ? rating : 0));
+  const fullStars = Math.floor(safeRating);
+  const hasHalfStar = safeRating % 1 >= 0.5;
+  const emptyStars = Math.max(0, 5 - fullStars - (hasHalfStar ? 1 : 0));
 
   return (
     <div className="flex items-center gap-0.5 text-accent">
