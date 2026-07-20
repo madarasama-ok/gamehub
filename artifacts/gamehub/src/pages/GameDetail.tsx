@@ -151,7 +151,7 @@ export default function GameDetail() {
                     <Share2 className="w-7 h-7 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
                   </button>
                   <button 
-                    onClick={() => toggleFavorite(game)}
+                    onClick={() => toggleFavorite(game.id)}
                     className={`p-4 rounded-full border transition-all ${
                       isFav 
                         ? 'bg-destructive/20 border-destructive/50 text-destructive shadow-[0_0_20px_-5px_hsl(var(--destructive)/0.6)]' 
