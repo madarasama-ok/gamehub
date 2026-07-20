@@ -3,20 +3,24 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: LEGENDLEO Gamehub API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: games
+    description: Game catalog operations
+  - name: categories
+    description: Category operations
+
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,6 +28,120 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /games:
+    get:
+      operationId: listGames
+      tags: [games]
+      summary: List all games with optional filters
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+        - name: search
+          in: query
+          schema:
+            type: string
+        - name: featured
+          in: query
+          schema:
+            type: boolean
+        - name: popular
+          in: query
+          schema:
+            type: boolean
+        - name: minRating
+          in: query
+          schema:
+            type: number
+        - name: sort
+          in: query
+          schema:
+            type: string
+            enum: [newest, popular, rating]
+      responses:
+        "200":
+          description: List of games
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Game"
+
+  /games/stats:
+    get:
+      operationId: getGameStats
+      tags: [games]
+      summary: Dashboard stats - total games, categories, downloads, top games
+      responses:
+        "200":
+          description: Stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GameStats"
+
+  /games/{id}:
+    get:
+      operationId: getGame
+      tags: [games]
+      summary: Get a single game by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Game detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Game"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /games/{id}/download:
+    post:
+      operationId: trackDownload
+      tags: [games]
+      summary: Increment download count for a game
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Download tracked
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Game"
+
+  /categories:
+    get:
+      operationId: listCategories
+      tags: [categories]
+      summary: List all available game categories with counts
+      responses:
+        "200":
+          description: List of categories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Category"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +152,137 @@ components:
       required:
         - status
 
+    Game:
+      type: object
+      required:
+        - id
+        - title
+        - description
+        - category
+        - imageUrl
+        - rating
+        - platform
+        - size
+        - version
+        - downloadUrl
+        - featured
+        - popular
+        - modFeatures
+        - downloadCount
+        - createdAt
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        category:
+          type: string
+        imageUrl:
+          type: string
+        rating:
+          type: number
+        platform:
+          type: string
+        size:
+          type: string
+        version:
+          type: string
+        downloadUrl:
+          type: string
+        featured:
+          type: boolean
+        popular:
+          type: boolean
+        modFeatures:
+          type: array
+          items:
+            type: string
+        downloadCount:
+          type: integer
+        createdAt:
+          type: string
+
+    GameStats:
+      type: object
+      required:
+        - totalGames
+        - totalCategories
+        - totalDownloads
+        - featuredCount
+        - popularCount
+        - topGames
+        - categoryBreakdown
+      properties:
+        totalGames:
+          type: integer
+        totalCategories:
+          type: integer
+        totalDownloads:
+          type: integer
+        featuredCount:
+          type: integer
+        popularCount:
+          type: integer
+        topGames:
+          type: array
+          items:
+            $ref: "#/components/schemas/GameTopItem"
+        categoryBreakdown:
+          type: array
+          items:
+            $ref: "#/components/schemas/CategoryStat"
+
+    GameTopItem:
+      type: object
+      required:
+        - id
+        - title
+        - downloadCount
+        - category
+        - imageUrl
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        downloadCount:
+          type: integer
+        category:
+          type: string
+        imageUrl:
+          type: string
+
+    CategoryStat:
+      type: object
+      required:
+        - name
+        - count
+        - totalDownloads
+      properties:
+        name:
+          type: string
+        count:
+          type: integer
+        totalDownloads:
+          type: integer
+
+    Category:
+      type: object
+      required:
+        - name
+        - count
+      properties:
+        name:
+          type: string
+        count:
+          type: integer
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string
