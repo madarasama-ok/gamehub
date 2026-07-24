@@ -6,12 +6,17 @@
  * OpenAPI spec version: 0.1.0
  */
 
+export * from './app';
 export * from './category';
 export * from './categoryStat';
+export * from './createAppInput';
+export * from './createGameInput';
 export * from './errorResponse';
 export * from './game';
 export * from './gameStats';
 export * from './gameTopItem';
 export * from './healthStatus';
+export * from './listAppsParams';
+export * from './listAppsSort';
 export * from './listGamesParams';
 export * from './listGamesSort';

@@ -56,6 +56,56 @@ export interface Category {
   count: number;
 }
 
+export interface App {
+  id: number;
+  title: string;
+  description: string;
+  category: string;
+  developer: string;
+  imageUrl: string;
+  rating: number;
+  platform: string;
+  size: string;
+  version: string;
+  downloadUrl: string;
+  featured: boolean;
+  popular: boolean;
+  features: string[];
+  downloadCount: number;
+  createdAt: string;
+}
+
+export interface CreateGameInput {
+  title: string;
+  description: string;
+  category: string;
+  imageUrl: string;
+  rating?: number;
+  platform?: string;
+  size?: string;
+  version?: string;
+  downloadUrl?: string;
+  featured?: boolean;
+  popular?: boolean;
+  modFeatures?: string[];
+}
+
+export interface CreateAppInput {
+  title: string;
+  description: string;
+  category: string;
+  developer?: string;
+  imageUrl: string;
+  rating?: number;
+  platform?: string;
+  size?: string;
+  version?: string;
+  downloadUrl?: string;
+  featured?: boolean;
+  popular?: boolean;
+  features?: string[];
+}
+
 export interface ErrorResponse {
   error: string;
 }
@@ -73,6 +123,24 @@ export type ListGamesSort = typeof ListGamesSort[keyof typeof ListGamesSort];
 
 
 export const ListGamesSort = {
+  newest: 'newest',
+  popular: 'popular',
+  rating: 'rating',
+} as const;
+
+export type ListAppsParams = {
+category?: string;
+search?: string;
+featured?: boolean;
+popular?: boolean;
+minRating?: number;
+sort?: ListAppsSort;
+};
+
+export type ListAppsSort = typeof ListAppsSort[keyof typeof ListAppsSort];
+
+
+export const ListAppsSort = {
   newest: 'newest',
   popular: 'popular',
   rating: 'rating',

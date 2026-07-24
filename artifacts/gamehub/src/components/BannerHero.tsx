@@ -30,7 +30,7 @@ export function BannerHero({ games }: { games: Game[] }) {
     return () => clearInterval(interval);
   }, [emblaApi]);
 
-  if (!games || games.length === 0) return null;
+  if (!Array.isArray(games) || games.length === 0) return null;
 
   return (
     <div className="relative w-full rounded-3xl overflow-hidden shadow-2xl border border-border/50 group bg-card mb-12">

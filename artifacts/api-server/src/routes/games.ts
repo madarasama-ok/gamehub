@@ -10,6 +10,8 @@ import {
   TrackDownloadResponse,
   ListCategoriesResponse,
   GetGameStatsResponse,
+  CreateGameBody,
+  CreateGameResponse,
 } from "@workspace/api-zod";
 
 const router: IRouter = Router();
@@ -49,6 +51,18 @@ router.get("/games", async (req, res): Promise<void> => {
     ...g,
     createdAt: g.createdAt.toISOString(),
   }))));
+});
+
+// POST /games
+router.post("/games", async (req, res): Promise<void> => {
+  const parsed = CreateGameBody.safeParse(req.body);
+    res.status(400).json({ error: parsed.error.message });
+    return;
+  }
+
+  const [created] = await db.insert(gamesTable).values(parsed.data).returning();
+
+  res.status(201).json(CreateGameResponse.parse({ ...created, createdAt: created.createdAt.toISOString() }));
 });
 
 // GET /games/stats

@@ -20,16 +20,20 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
+  App,
   Category,
+  CreateAppInput,
+  CreateGameInput,
   ErrorResponse,
   Game,
   GameStats,
   HealthStatus,
+  ListAppsParams,
   ListGamesParams
 } from './api.schemas';
 
 import { customFetch } from '../custom-fetch';
-import type { ErrorType } from '../custom-fetch';
+import type { ErrorType , BodyType } from '../custom-fetch';
 
 type AwaitedInput<T> = PromiseLike<T> | T;
 
@@ -215,6 +219,77 @@ export function useListGames<TData = Awaited<ReturnType<typeof listGames>>, TErr
 
 
 
+
+export const getCreateGameUrl = () => {
+
+
+
+
+  return `/api/games`
+}
+
+/**
+ * @summary Create a new game
+ */
+export const createGame = async (createGameInput: CreateGameInput, options?: RequestInit): Promise<Game> => {
+
+  return customFetch<Game>(getCreateGameUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(createGameInput)
+  }
+);}
+
+
+
+
+
+export const getCreateGameMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createGame>>, TError,{data: BodyType<CreateGameInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof createGame>>, TError,{data: BodyType<CreateGameInput>}, TContext> => {
+
+const mutationKey = ['createGame'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createGame>>, {data: BodyType<CreateGameInput>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  createGame(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateGameMutationResult = NonNullable<Awaited<ReturnType<typeof createGame>>>
+    export type CreateGameMutationBody = BodyType<CreateGameInput>
+    export type CreateGameMutationError = ErrorType<unknown>
+
+    /**
+ * @summary Create a new game
+ */
+export const useCreateGame = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createGame>>, TError,{data: BodyType<CreateGameInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof createGame>>,
+        TError,
+        {data: BodyType<CreateGameInput>},
+        TContext
+      > => {
+      return useMutation(getCreateGameMutationOptions(options));
+    }
 
 export const getGetGameStatsUrl = () => {
 
@@ -440,6 +515,386 @@ export const useTrackDownload = <TError = ErrorType<unknown>,
       > => {
       return useMutation(getTrackDownloadMutationOptions(options));
     }
+
+export const getListAppsUrl = (params?: ListAppsParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : String(value))
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `/api/apps?${stringifiedParams}` : `/api/apps`
+}
+
+/**
+ * @summary List all apps with optional filters
+ */
+export const listApps = async (params?: ListAppsParams, options?: RequestInit): Promise<App[]> => {
+
+  return customFetch<App[]>(getListAppsUrl(params),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getListAppsQueryKey = (params?: ListAppsParams,) => {
+    return [
+    `/api/apps`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getListAppsQueryOptions = <TData = Awaited<ReturnType<typeof listApps>>, TError = ErrorType<unknown>>(params?: ListAppsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listApps>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListAppsQueryKey(params);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listApps>>> = ({ signal }) => listApps(params, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listApps>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type ListAppsQueryResult = NonNullable<Awaited<ReturnType<typeof listApps>>>
+export type ListAppsQueryError = ErrorType<unknown>
+
+
+/**
+ * @summary List all apps with optional filters
+ */
+
+export function useListApps<TData = Awaited<ReturnType<typeof listApps>>, TError = ErrorType<unknown>>(
+ params?: ListAppsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listApps>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getListAppsQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getCreateAppUrl = () => {
+
+
+
+
+  return `/api/apps`
+}
+
+/**
+ * @summary Create a new app
+ */
+export const createApp = async (createAppInput: CreateAppInput, options?: RequestInit): Promise<App> => {
+
+  return customFetch<App>(getCreateAppUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(createAppInput)
+  }
+);}
+
+
+
+
+
+export const getCreateAppMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createApp>>, TError,{data: BodyType<CreateAppInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof createApp>>, TError,{data: BodyType<CreateAppInput>}, TContext> => {
+
+const mutationKey = ['createApp'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createApp>>, {data: BodyType<CreateAppInput>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  createApp(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateAppMutationResult = NonNullable<Awaited<ReturnType<typeof createApp>>>
+    export type CreateAppMutationBody = BodyType<CreateAppInput>
+    export type CreateAppMutationError = ErrorType<unknown>
+
+    /**
+ * @summary Create a new app
+ */
+export const useCreateApp = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createApp>>, TError,{data: BodyType<CreateAppInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof createApp>>,
+        TError,
+        {data: BodyType<CreateAppInput>},
+        TContext
+      > => {
+      return useMutation(getCreateAppMutationOptions(options));
+    }
+
+export const getGetAppUrl = (id: number,) => {
+
+
+
+
+  return `/api/apps/${id}`
+}
+
+/**
+ * @summary Get a single app by ID
+ */
+export const getApp = async (id: number, options?: RequestInit): Promise<App> => {
+
+  return customFetch<App>(getGetAppUrl(id),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetAppQueryKey = (id: number,) => {
+    return [
+    `/api/apps/${id}`
+    ] as const;
+    }
+
+
+export const getGetAppQueryOptions = <TData = Awaited<ReturnType<typeof getApp>>, TError = ErrorType<ErrorResponse>>(id: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApp>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetAppQueryKey(id);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApp>>> = ({ signal }) => getApp(id, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: id !== null && id !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApp>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetAppQueryResult = NonNullable<Awaited<ReturnType<typeof getApp>>>
+export type GetAppQueryError = ErrorType<ErrorResponse>
+
+
+/**
+ * @summary Get a single app by ID
+ */
+
+export function useGetApp<TData = Awaited<ReturnType<typeof getApp>>, TError = ErrorType<ErrorResponse>>(
+ id: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApp>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetAppQueryOptions(id,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getTrackAppDownloadUrl = (id: number,) => {
+
+
+
+
+  return `/api/apps/${id}/download`
+}
+
+/**
+ * @summary Increment download count for an app
+ */
+export const trackAppDownload = async (id: number, options?: RequestInit): Promise<App> => {
+
+  return customFetch<App>(getTrackAppDownloadUrl(id),
+  {
+    ...options,
+    method: 'POST'
+
+
+  }
+);}
+
+
+
+
+
+export const getTrackAppDownloadMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof trackAppDownload>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof trackAppDownload>>, TError,{id: number}, TContext> => {
+
+const mutationKey = ['trackAppDownload'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof trackAppDownload>>, {id: number}> = (props) => {
+          const {id} = props ?? {};
+
+          return  trackAppDownload(id,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type TrackAppDownloadMutationResult = NonNullable<Awaited<ReturnType<typeof trackAppDownload>>>
+
+    export type TrackAppDownloadMutationError = ErrorType<unknown>
+
+    /**
+ * @summary Increment download count for an app
+ */
+export const useTrackAppDownload = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof trackAppDownload>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof trackAppDownload>>,
+        TError,
+        {id: number},
+        TContext
+      > => {
+      return useMutation(getTrackAppDownloadMutationOptions(options));
+    }
+
+export const getListAppCategoriesUrl = () => {
+
+
+
+
+  return `/api/app-categories`
+}
+
+/**
+ * @summary List all available app categories with counts
+ */
+export const listAppCategories = async ( options?: RequestInit): Promise<Category[]> => {
+
+  return customFetch<Category[]>(getListAppCategoriesUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getListAppCategoriesQueryKey = () => {
+    return [
+    `/api/app-categories`
+    ] as const;
+    }
+
+
+export const getListAppCategoriesQueryOptions = <TData = Awaited<ReturnType<typeof listAppCategories>>, TError = ErrorType<unknown>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listAppCategories>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListAppCategoriesQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listAppCategories>>> = ({ signal }) => listAppCategories({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listAppCategories>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type ListAppCategoriesQueryResult = NonNullable<Awaited<ReturnType<typeof listAppCategories>>>
+export type ListAppCategoriesQueryError = ErrorType<unknown>
+
+
+/**
+ * @summary List all available app categories with counts
+ */
+
+export function useListAppCategories<TData = Awaited<ReturnType<typeof listAppCategories>>, TError = ErrorType<unknown>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listAppCategories>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getListAppCategoriesQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
 
 export const getListCategoriesUrl = () => {
 

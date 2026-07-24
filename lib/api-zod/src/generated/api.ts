@@ -49,6 +49,43 @@ export const ListGamesResponse = zod.array(ListGamesResponseItem)
 
 
 /**
+ * @summary Create a new game
+ */
+export const CreateGameBody = zod.object({
+  "title": zod.string(),
+  "description": zod.string(),
+  "category": zod.string(),
+  "imageUrl": zod.string(),
+  "rating": zod.number().optional(),
+  "platform": zod.string().optional(),
+  "size": zod.string().optional(),
+  "version": zod.string().optional(),
+  "downloadUrl": zod.string().optional(),
+  "featured": zod.boolean().optional(),
+  "popular": zod.boolean().optional(),
+  "modFeatures": zod.array(zod.string()).optional()
+})
+
+export const CreateGameResponse = zod.object({
+  "id": zod.number(),
+  "title": zod.string(),
+  "description": zod.string(),
+  "category": zod.string(),
+  "imageUrl": zod.string(),
+  "rating": zod.number(),
+  "platform": zod.string(),
+  "size": zod.string(),
+  "version": zod.string(),
+  "downloadUrl": zod.string(),
+  "featured": zod.boolean(),
+  "popular": zod.boolean(),
+  "modFeatures": zod.array(zod.string()),
+  "downloadCount": zod.number(),
+  "createdAt": zod.string()
+})
+
+
+/**
  * @summary Dashboard stats - total games, categories, downloads, top games
  */
 export const GetGameStatsResponse = zod.object({
@@ -122,6 +159,142 @@ export const TrackDownloadResponse = zod.object({
   "downloadCount": zod.number(),
   "createdAt": zod.string()
 })
+
+
+/**
+ * @summary List all apps with optional filters
+ */
+export const ListAppsQueryParams = zod.object({
+  "category": zod.coerce.string().optional(),
+  "search": zod.coerce.string().optional(),
+  "featured": zod.coerce.boolean().optional(),
+  "popular": zod.coerce.boolean().optional(),
+  "minRating": zod.coerce.number().optional(),
+  "sort": zod.enum(['newest', 'popular', 'rating']).optional()
+})
+
+export const ListAppsResponseItem = zod.object({
+  "id": zod.number(),
+  "title": zod.string(),
+  "description": zod.string(),
+  "category": zod.string(),
+  "developer": zod.string(),
+  "imageUrl": zod.string(),
+  "rating": zod.number(),
+  "platform": zod.string(),
+  "size": zod.string(),
+  "version": zod.string(),
+  "downloadUrl": zod.string(),
+  "featured": zod.boolean(),
+  "popular": zod.boolean(),
+  "features": zod.array(zod.string()),
+  "downloadCount": zod.number(),
+  "createdAt": zod.string()
+})
+export const ListAppsResponse = zod.array(ListAppsResponseItem)
+
+
+/**
+ * @summary Create a new app
+ */
+export const CreateAppBody = zod.object({
+  "title": zod.string(),
+  "description": zod.string(),
+  "category": zod.string(),
+  "developer": zod.string().optional(),
+  "imageUrl": zod.string(),
+  "rating": zod.number().optional(),
+  "platform": zod.string().optional(),
+  "size": zod.string().optional(),
+  "version": zod.string().optional(),
+  "downloadUrl": zod.string().optional(),
+  "featured": zod.boolean().optional(),
+  "popular": zod.boolean().optional(),
+  "features": zod.array(zod.string()).optional()
+})
+
+export const CreateAppResponse = zod.object({
+  "id": zod.number(),
+  "title": zod.string(),
+  "description": zod.string(),
+  "category": zod.string(),
+  "developer": zod.string(),
+  "imageUrl": zod.string(),
+  "rating": zod.number(),
+  "platform": zod.string(),
+  "size": zod.string(),
+  "version": zod.string(),
+  "downloadUrl": zod.string(),
+  "featured": zod.boolean(),
+  "popular": zod.boolean(),
+  "features": zod.array(zod.string()),
+  "downloadCount": zod.number(),
+  "createdAt": zod.string()
+})
+
+
+/**
+ * @summary Get a single app by ID
+ */
+export const GetAppParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+export const GetAppResponse = zod.object({
+  "id": zod.number(),
+  "title": zod.string(),
+  "description": zod.string(),
+  "category": zod.string(),
+  "developer": zod.string(),
+  "imageUrl": zod.string(),
+  "rating": zod.number(),
+  "platform": zod.string(),
+  "size": zod.string(),
+  "version": zod.string(),
+  "downloadUrl": zod.string(),
+  "featured": zod.boolean(),
+  "popular": zod.boolean(),
+  "features": zod.array(zod.string()),
+  "downloadCount": zod.number(),
+  "createdAt": zod.string()
+})
+
+
+/**
+ * @summary Increment download count for an app
+ */
+export const TrackAppDownloadParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+export const TrackAppDownloadResponse = zod.object({
+  "id": zod.number(),
+  "title": zod.string(),
+  "description": zod.string(),
+  "category": zod.string(),
+  "developer": zod.string(),
+  "imageUrl": zod.string(),
+  "rating": zod.number(),
+  "platform": zod.string(),
+  "size": zod.string(),
+  "version": zod.string(),
+  "downloadUrl": zod.string(),
+  "featured": zod.boolean(),
+  "popular": zod.boolean(),
+  "features": zod.array(zod.string()),
+  "downloadCount": zod.number(),
+  "createdAt": zod.string()
+})
+
+
+/**
+ * @summary List all available app categories with counts
+ */
+export const ListAppCategoriesResponseItem = zod.object({
+  "name": zod.string(),
+  "count": zod.number()
+})
+export const ListAppCategoriesResponse = zod.array(ListAppCategoriesResponseItem)
 
 
 /**

@@ -6,7 +6,10 @@ import Home from '@/pages/Home';
 import GameDetail from '@/pages/GameDetail';
 import CategoryPage from '@/pages/CategoryPage';
 import StatsPage from '@/pages/StatsPage';
+import Apps from '@/pages/Apps';
+import AppDetail from '@/pages/AppDetail';
 import { SplashScreen } from '@/components/SplashScreen';
+import { BottomNav } from '@/components/BottomNav';
 import { Route, Switch, Router as WouterRouter } from 'wouter';
 import { useEffect } from 'react';
 
@@ -19,6 +22,8 @@ function Router() {
       <Route path="/game/:id" component={GameDetail} />
       <Route path="/category/:name" component={CategoryPage} />
       <Route path="/stats" component={StatsPage} />
+      <Route path="/apps" component={Apps} />
+      <Route path="/app/:id" component={AppDetail} />
       <Route component={NotFound} />
     </Switch>
   );
@@ -35,6 +40,7 @@ function App() {
         <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}>
           <SplashScreen>
             <Router />
+            <BottomNav />
           </SplashScreen>
         </WouterRouter>
         <Toaster />

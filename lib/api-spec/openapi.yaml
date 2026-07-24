@@ -14,6 +14,8 @@ tags:
     description: Game catalog operations
   - name: categories
     description: Category operations
+  - name: apps
+    description: App catalog operations
 
 paths:
   /healthz:
@@ -69,6 +71,23 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Game"
+    post:
+      operationId: createGame
+      tags: [games]
+      summary: Create a new game
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateGameInput"
+      responses:
+        "201":
+          description: Game created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Game"
 
   /games/stats:
     get:
@@ -126,6 +145,123 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Game"
+
+  /apps:
+    get:
+      operationId: listApps
+      tags: [apps]
+      summary: List all apps with optional filters
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+        - name: search
+          in: query
+          schema:
+            type: string
+        - name: featured
+          in: query
+          schema:
+            type: boolean
+        - name: popular
+          in: query
+          schema:
+            type: boolean
+        - name: minRating
+          in: query
+          schema:
+            type: number
+        - name: sort
+          in: query
+          schema:
+            type: string
+            enum: [newest, popular, rating]
+      responses:
+        "200":
+          description: List of apps
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/App"
+    post:
+      operationId: createApp
+      tags: [apps]
+      summary: Create a new app
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateAppInput"
+      responses:
+        "201":
+          description: App created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/App"
+
+  /apps/{id}:
+    get:
+      operationId: getApp
+      tags: [apps]
+      summary: Get a single app by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: App detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/App"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /apps/{id}/download:
+    post:
+      operationId: trackAppDownload
+      tags: [apps]
+      summary: Increment download count for an app
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Download tracked
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/App"
+
+  /app-categories:
+    get:
+      operationId: listAppCategories
+      tags: [apps]
+      summary: List all available app categories with counts
+      responses:
+        "200":
+          description: List of categories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Category"
 
   /categories:
     get:
@@ -278,6 +414,133 @@ components:
           type: string
         count:
           type: integer
+
+    App:
+      type: object
+      required:
+        - id
+        - title
+        - description
+        - category
+        - developer
+        - imageUrl
+        - rating
+        - platform
+        - size
+        - version
+        - downloadUrl
+        - featured
+        - popular
+        - features
+        - downloadCount
+        - createdAt
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        category:
+          type: string
+        developer:
+          type: string
+        imageUrl:
+          type: string
+        rating:
+          type: number
+        platform:
+          type: string
+        size:
+          type: string
+        version:
+          type: string
+        downloadUrl:
+          type: string
+        featured:
+          type: boolean
+        popular:
+          type: boolean
+        features:
+          type: array
+          items:
+            type: string
+        downloadCount:
+          type: integer
+        createdAt:
+          type: string
+
+    CreateGameInput:
+      type: object
+      required:
+        - title
+        - description
+        - category
+        - imageUrl
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        category:
+          type: string
+        imageUrl:
+          type: string
+        rating:
+          type: number
+        platform:
+          type: string
+        size:
+          type: string
+        version:
+          type: string
+        downloadUrl:
+          type: string
+        featured:
+          type: boolean
+        popular:
+          type: boolean
+        modFeatures:
+          type: array
+          items:
+            type: string
+
+    CreateAppInput:
+      type: object
+      required:
+        - title
+        - description
+        - category
+        - imageUrl
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        category:
+          type: string
+        developer:
+          type: string
+        imageUrl:
+          type: string
+        rating:
+          type: number
+        platform:
+          type: string
+        size:
+          type: string
+        version:
+          type: string
+        downloadUrl:
+          type: string
+        featured:
+          type: boolean
+        popular:
+          type: boolean
+        features:
+          type: array
+          items:
+            type: string
 
     ErrorResponse:
       type: object
