@@ -56,6 +56,7 @@ router.get("/games", async (req, res): Promise<void> => {
 // POST /games
 router.post("/games", async (req, res): Promise<void> => {
   const parsed = CreateGameBody.safeParse(req.body);
+  if (!parsed.success) {
     res.status(400).json({ error: parsed.error.message });
     return;
   }
