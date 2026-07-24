@@ -9,6 +9,8 @@ import {
   TrackAppDownloadParams,
   TrackAppDownloadResponse,
   ListAppCategoriesResponse,
+  CreateAppBody,
+  CreateAppResponse,
 } from "@workspace/api-zod";
 
 const router: IRouter = Router();
@@ -48,6 +50,19 @@ router.get("/apps", async (req, res): Promise<void> => {
     ...a,
     createdAt: a.createdAt.toISOString(),
   }))));
+});
+
+// POST /apps
+router.post("/apps", async (req, res): Promise<void> => {
+  const parsed = CreateAppBody.safeParse(req.body);
+  if (!parsed.success) {
+    res.status(400).json({ error: parsed.error.message });
+    return;
+  }
+
+  const [created] = await db.insert(appsTable).values(parsed.data).returning();
+
+  res.status(201).json(CreateAppResponse.parse({ ...created, createdAt: created.createdAt.toISOString() }));
 });
 
 // GET /apps/:id
