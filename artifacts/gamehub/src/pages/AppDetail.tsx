@@ -58,7 +58,7 @@ export default function AppDetail() {
       try {
         await navigator.share({
           title: app.title,
-          text: `Mirá ${app.title} en LEGENDLEO!`,
+          text: `Mirá ${app.title} en NovaHub!`,
           url: window.location.href,
         });
         toast({ title: "¡Compartido!", description: "Gracias por compartir" });

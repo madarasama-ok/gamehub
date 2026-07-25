@@ -33,9 +33,9 @@ export function Header({
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-2 group shrink-0">
-            <span className="text-2xl drop-shadow-md">👑</span>
+            <img src="/novahub-circular-256.png" alt="NovaHub" className="w-9 h-9 object-contain" />
             <span className="font-extrabold text-xl tracking-tighter text-white group-hover:text-primary transition-colors text-glow">
-              LEGENDLEO
+              NovaHub
             </span>
           </Link>
 
