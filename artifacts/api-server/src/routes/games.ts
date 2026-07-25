@@ -13,6 +13,9 @@ import {
   GetGameStatsResponse,
   CreateGameBody,
   CreateGameResponse,
+  UpdateGameParams,
+  UpdateGameBody,
+  UpdateGameResponse,
 } from "@workspace/api-zod";
 
 const router: IRouter = Router();
@@ -65,6 +68,35 @@ router.post("/games", requireAdmin, async (req, res): Promise<void> => {
   const [created] = await db.insert(gamesTable).values(parsed.data).returning();
 
   res.status(201).json(CreateGameResponse.parse({ ...created, createdAt: created.createdAt.toISOString() }));
+});
+
+// PUT /games/:id
+router.put("/games/:id", requireAdmin, async (req, res): Promise<void> => {
+  const rawId = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+  const parsedParams = UpdateGameParams.safeParse({ id: parseInt(rawId, 10) });
+  if (!parsedParams.success) {
+    res.status(400).json({ error: "Invalid game ID" });
+    return;
+  }
+
+  const parsedBody = UpdateGameBody.safeParse(req.body);
+  if (!parsedBody.success) {
+    res.status(400).json({ error: parsedBody.error.message });
+    return;
+  }
+
+  const [updated] = await db
+    .update(gamesTable)
+    .set(parsedBody.data)
+    .where(eq(gamesTable.id, parsedParams.data.id))
+    .returning();
+
+  if (!updated) {
+    res.status(404).json({ error: "Game not found" });
+    return;
+  }
+
+  res.json(UpdateGameResponse.parse({ ...updated, createdAt: updated.createdAt.toISOString() }));
 });
 
 // GET /games/stats

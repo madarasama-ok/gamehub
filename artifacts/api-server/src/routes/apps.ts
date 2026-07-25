@@ -12,6 +12,9 @@ import {
   ListAppCategoriesResponse,
   CreateAppBody,
   CreateAppResponse,
+  UpdateAppParams,
+  UpdateAppBody,
+  UpdateAppResponse,
 } from "@workspace/api-zod";
 
 const router: IRouter = Router();
@@ -64,6 +67,35 @@ router.post("/apps", requireAdmin, async (req, res): Promise<void> => {
   const [created] = await db.insert(appsTable).values(parsed.data).returning();
 
   res.status(201).json(CreateAppResponse.parse({ ...created, createdAt: created.createdAt.toISOString() }));
+});
+
+// PUT /apps/:id
+router.put("/apps/:id", requireAdmin, async (req, res): Promise<void> => {
+  const rawId = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+  const parsedParams = UpdateAppParams.safeParse({ id: parseInt(rawId, 10) });
+  if (!parsedParams.success) {
+    res.status(400).json({ error: "Invalid app ID" });
+    return;
+  }
+
+  const parsedBody = UpdateAppBody.safeParse(req.body);
+  if (!parsedBody.success) {
+    res.status(400).json({ error: parsedBody.error.message });
+    return;
+  }
+
+  const [updated] = await db
+    .update(appsTable)
+    .set(parsedBody.data)
+    .where(eq(appsTable.id, parsedParams.data.id))
+    .returning();
+
+  if (!updated) {
+    res.status(404).json({ error: "App not found" });
+    return;
+  }
+
+  res.json(UpdateAppResponse.parse({ ...updated, createdAt: updated.createdAt.toISOString() }));
 });
 
 // GET /apps/:id

@@ -136,6 +136,47 @@ export const GetGameResponse = zod.object({
 
 
 /**
+ * @summary Update an existing game
+ */
+export const UpdateGameParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+export const UpdateGameBody = zod.object({
+  "title": zod.string(),
+  "description": zod.string(),
+  "category": zod.string(),
+  "imageUrl": zod.string(),
+  "rating": zod.number().optional(),
+  "platform": zod.string().optional(),
+  "size": zod.string().optional(),
+  "version": zod.string().optional(),
+  "downloadUrl": zod.string().optional(),
+  "featured": zod.boolean().optional(),
+  "popular": zod.boolean().optional(),
+  "modFeatures": zod.array(zod.string()).optional()
+})
+
+export const UpdateGameResponse = zod.object({
+  "id": zod.number(),
+  "title": zod.string(),
+  "description": zod.string(),
+  "category": zod.string(),
+  "imageUrl": zod.string(),
+  "rating": zod.number(),
+  "platform": zod.string(),
+  "size": zod.string(),
+  "version": zod.string(),
+  "downloadUrl": zod.string(),
+  "featured": zod.boolean(),
+  "popular": zod.boolean(),
+  "modFeatures": zod.array(zod.string()),
+  "downloadCount": zod.number(),
+  "createdAt": zod.string()
+})
+
+
+/**
  * @summary Increment download count for a game
  */
 export const TrackDownloadParams = zod.object({
@@ -241,6 +282,49 @@ export const GetAppParams = zod.object({
 })
 
 export const GetAppResponse = zod.object({
+  "id": zod.number(),
+  "title": zod.string(),
+  "description": zod.string(),
+  "category": zod.string(),
+  "developer": zod.string(),
+  "imageUrl": zod.string(),
+  "rating": zod.number(),
+  "platform": zod.string(),
+  "size": zod.string(),
+  "version": zod.string(),
+  "downloadUrl": zod.string(),
+  "featured": zod.boolean(),
+  "popular": zod.boolean(),
+  "features": zod.array(zod.string()),
+  "downloadCount": zod.number(),
+  "createdAt": zod.string()
+})
+
+
+/**
+ * @summary Update an existing app
+ */
+export const UpdateAppParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+export const UpdateAppBody = zod.object({
+  "title": zod.string(),
+  "description": zod.string(),
+  "category": zod.string(),
+  "developer": zod.string().optional(),
+  "imageUrl": zod.string(),
+  "rating": zod.number().optional(),
+  "platform": zod.string().optional(),
+  "size": zod.string().optional(),
+  "version": zod.string().optional(),
+  "downloadUrl": zod.string().optional(),
+  "featured": zod.boolean().optional(),
+  "popular": zod.boolean().optional(),
+  "features": zod.array(zod.string()).optional()
+})
+
+export const UpdateAppResponse = zod.object({
   "id": zod.number(),
   "title": zod.string(),
   "description": zod.string(),

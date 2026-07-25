@@ -11,8 +11,10 @@ import {
 } from "@workspace/api-client-react";
 import { useFavorites } from "@/hooks/use-favorites";
 import { BannerHero } from "@/components/BannerHero";
+import { Categories } from "@/components/Categories";
 import { Link } from "wouter";
 import { CategoryIcon } from "@/components/CategoryIcon";
+import { Categories } from "@/components/Categories";
 import { BottomNav } from "@/components/BottomNav";
 function toArray<T>(data: unknown): T[] {
   if (Array.isArray(data)) return data;
@@ -78,8 +80,12 @@ export default function Home() {
       <main className="container mx-auto px-4 mt-8 space-y-12">
 
         {!isSearching && featuredGames.length > 0 && (
-          <BannerHero games={featuredGames} />
+          <>
+            <BannerHero games={featuredGames} />
+            <Categories />
+          </>
         )}
+        {!isSearching && featuredGames.length === 0 && <Categories />}
 
         <div className="flex gap-3 overflow-x-auto pb-4 hide-scrollbar -mx-4 px-4">
           {categories.map((cat) => (

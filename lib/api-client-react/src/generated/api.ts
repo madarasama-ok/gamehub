@@ -445,6 +445,78 @@ export function useGetGame<TData = Awaited<ReturnType<typeof getGame>>, TError =
 
 
 
+export const getUpdateGameUrl = (id: number,) => {
+
+
+
+
+  return `/api/games/${id}`
+}
+
+/**
+ * @summary Update an existing game
+ */
+export const updateGame = async (id: number,
+    createGameInput: CreateGameInput, options?: RequestInit): Promise<Game> => {
+
+  return customFetch<Game>(getUpdateGameUrl(id),
+  {
+    ...options,
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(createGameInput)
+  }
+);}
+
+
+
+
+
+export const getUpdateGameMutationOptions = <TError = ErrorType<ErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateGame>>, TError,{id: number;data: BodyType<CreateGameInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateGame>>, TError,{id: number;data: BodyType<CreateGameInput>}, TContext> => {
+
+const mutationKey = ['updateGame'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateGame>>, {id: number;data: BodyType<CreateGameInput>}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  updateGame(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateGameMutationResult = NonNullable<Awaited<ReturnType<typeof updateGame>>>
+    export type UpdateGameMutationBody = BodyType<CreateGameInput>
+    export type UpdateGameMutationError = ErrorType<ErrorResponse>
+
+    /**
+ * @summary Update an existing game
+ */
+export const useUpdateGame = <TError = ErrorType<ErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateGame>>, TError,{id: number;data: BodyType<CreateGameInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updateGame>>,
+        TError,
+        {id: number;data: BodyType<CreateGameInput>},
+        TContext
+      > => {
+      return useMutation(getUpdateGameMutationOptions(options));
+    }
+
 export const getTrackDownloadUrl = (id: number,) => {
 
 
@@ -747,6 +819,78 @@ export function useGetApp<TData = Awaited<ReturnType<typeof getApp>>, TError = E
 
 
 
+
+export const getUpdateAppUrl = (id: number,) => {
+
+
+
+
+  return `/api/apps/${id}`
+}
+
+/**
+ * @summary Update an existing app
+ */
+export const updateApp = async (id: number,
+    createAppInput: CreateAppInput, options?: RequestInit): Promise<App> => {
+
+  return customFetch<App>(getUpdateAppUrl(id),
+  {
+    ...options,
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(createAppInput)
+  }
+);}
+
+
+
+
+
+export const getUpdateAppMutationOptions = <TError = ErrorType<ErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateApp>>, TError,{id: number;data: BodyType<CreateAppInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateApp>>, TError,{id: number;data: BodyType<CreateAppInput>}, TContext> => {
+
+const mutationKey = ['updateApp'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateApp>>, {id: number;data: BodyType<CreateAppInput>}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  updateApp(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateAppMutationResult = NonNullable<Awaited<ReturnType<typeof updateApp>>>
+    export type UpdateAppMutationBody = BodyType<CreateAppInput>
+    export type UpdateAppMutationError = ErrorType<ErrorResponse>
+
+    /**
+ * @summary Update an existing app
+ */
+export const useUpdateApp = <TError = ErrorType<ErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateApp>>, TError,{id: number;data: BodyType<CreateAppInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updateApp>>,
+        TError,
+        {id: number;data: BodyType<CreateAppInput>},
+        TContext
+      > => {
+      return useMutation(getUpdateAppMutationOptions(options));
+    }
 
 export const getTrackAppDownloadUrl = (id: number,) => {
 
