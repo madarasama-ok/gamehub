@@ -1,6 +1,7 @@
 import { Router, type IRouter } from "express";
 import { eq, ilike, and, sql, gte, desc, asc } from "drizzle-orm";
 import { db, gamesTable } from "@workspace/db";
+import { requireAdmin } from "../lib/require-admin";
 import {
   ListGamesQueryParams,
   ListGamesResponse,
@@ -54,7 +55,7 @@ router.get("/games", async (req, res): Promise<void> => {
 });
 
 // POST /games
-router.post("/games", async (req, res): Promise<void> => {
+router.post("/games", requireAdmin, async (req, res): Promise<void> => {
   const parsed = CreateGameBody.safeParse(req.body);
   if (!parsed.success) {
     res.status(400).json({ error: parsed.error.message });

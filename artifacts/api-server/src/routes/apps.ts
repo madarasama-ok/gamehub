@@ -1,6 +1,7 @@
 import { Router, type IRouter } from "express";
 import { eq, ilike, and, sql, gte, desc } from "drizzle-orm";
 import { db, appsTable } from "@workspace/db";
+import { requireAdmin } from "../lib/require-admin";
 import {
   ListAppsQueryParams,
   ListAppsResponse,
@@ -53,7 +54,7 @@ router.get("/apps", async (req, res): Promise<void> => {
 });
 
 // POST /apps
-router.post("/apps", async (req, res): Promise<void> => {
+router.post("/apps", requireAdmin, async (req, res): Promise<void> => {
   const parsed = CreateAppBody.safeParse(req.body);
   if (!parsed.success) {
     res.status(400).json({ error: parsed.error.message });

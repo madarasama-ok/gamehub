@@ -23,6 +23,8 @@ const emptyForm = {
 };
 
 export default function Admin() {
+  const [adminKey, setAdminKey] = useState<string | null>(() => localStorage.getItem("admin_key"));
+  const [passwordInput, setPasswordInput] = useState("");
   const [tab, setTab] = useState<Tab>("game");
   const [form, setForm] = useState(emptyForm);
   const { toast } = useToast();
@@ -68,7 +70,13 @@ export default function Admin() {
             toast({ title: "¡Juego creado!", description: form.title });
             resetForm();
           },
-          onError: () => {
+          onError: (error: any) => {
+            if (error?.status === 401) {
+              localStorage.removeItem("admin_key");
+              setAdminKey(null);
+              toast({ title: "Sesión inválida", description: "Volvé a ingresar la contraseña", variant: "destructive" });
+              return;
+            }
             toast({ title: "Error", description: "No se pudo crear el juego", variant: "destructive" });
           },
         }
@@ -81,13 +89,50 @@ export default function Admin() {
             toast({ title: "¡App creada!", description: form.title });
             resetForm();
           },
-          onError: () => {
+          onError: (error: any) => {
+            if (error?.status === 401) {
+              localStorage.removeItem("admin_key");
+              setAdminKey(null);
+              toast({ title: "Sesión inválida", description: "Volvé a ingresar la contraseña", variant: "destructive" });
+              return;
+            }
             toast({ title: "Error", description: "No se pudo crear la app", variant: "destructive" });
           },
         }
       );
     }
   };
+
+  if (!adminKey) {
+    return (
+      <div className="min-h-[100dvh] bg-background text-foreground flex items-center justify-center p-4">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            localStorage.setItem("admin_key", passwordInput);
+            setAdminKey(passwordInput);
+          }}
+          className="bg-card/50 border border-border/50 rounded-2xl p-8 w-full max-w-sm space-y-4"
+        >
+          <h1 className="text-2xl font-black text-white text-glow">🔒 Panel de administración</h1>
+          <input
+            type="password"
+            placeholder="Contraseña"
+            value={passwordInput}
+            onChange={(e) => setPasswordInput(e.target.value)}
+            className="w-full h-11 bg-secondary/50 border border-border/50 rounded-lg px-3 text-sm"
+            autoFocus
+          />
+          <button
+            type="submit"
+            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-3 rounded-xl transition-all"
+          >
+            Entrar
+          </button>
+        </form>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-[100dvh] bg-background text-foreground pb-20">
