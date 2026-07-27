@@ -79,8 +79,10 @@ export default function Home() {
       <main className="container mx-auto px-4 mt-8 space-y-12">
 
         {!isSearching && featuredGames.length > 0 && (
-          <BannerHero games={featuredGames} />
-          <Categories />
+            <>
+              <BannerHero games={featuredGames} />
+              <Categories />
+            </>
         )}
 
         <div className="flex gap-3 overflow-x-auto pb-4 hide-scrollbar -mx-4 px-4">
