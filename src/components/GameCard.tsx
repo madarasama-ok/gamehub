@@ -14,6 +14,14 @@ export function GameCard({ game }: { game: Game }) {
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
             loading="lazy"
           />
+
+          {game.badge && (
+            <div className="absolute top-3 left-3 z-10">
+              <span className="px-2.5 py-1 text-[10px] font-bold tracking-wider uppercase bg-primary/20 text-primary border border-primary/30 backdrop-blur-md rounded">
+                {game.badge}
+              </span>
+            </div>
+          )}
           <div className="absolute inset-0 bg-gradient-to-t from-card via-card/20 to-transparent" />
           <div className="absolute top-3 right-3">
             <span className="px-2.5 py-1 text-[10px] font-bold tracking-wider uppercase bg-primary/20 text-primary border border-primary/30 backdrop-blur-md rounded">
