@@ -8,6 +8,7 @@ import CategoryPage from '@/pages/CategoryPage';
 import StatsPage from '@/pages/StatsPage';
 import Apps from '@/pages/Apps';
 import AppDetail from '@/pages/AppDetail';
+import Admin from '@/pages/Admin';
 import { SplashScreen } from '@/components/SplashScreen';
 import { BottomNav } from '@/components/BottomNav';
 import { Route, Switch, Router as WouterRouter } from 'wouter';
@@ -24,6 +25,7 @@ function Router() {
       <Route path="/stats" component={StatsPage} />
       <Route path="/apps" component={Apps} />
       <Route path="/app/:id" component={AppDetail} />
+      <Route path="/admin" component={Admin} />
       <Route component={NotFound} />
     </Switch>
   );
