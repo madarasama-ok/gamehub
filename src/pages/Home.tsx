@@ -11,8 +11,10 @@ import {
 } from "@workspace/api-client-react";
 import { useFavorites } from "@/hooks/use-favorites";
 import { BannerHero } from "@/components/BannerHero";
+import { Categories } from "@/components/Categories";
 import { Link } from "wouter";
 import { CategoryIcon } from "@/components/CategoryIcon";
+import { Categories } from "@/components/Categories";
 import { BottomNav } from "@/components/BottomNav";
 function toArray<T>(data: unknown): T[] {
   if (Array.isArray(data)) return data;
@@ -78,22 +80,12 @@ export default function Home() {
       <main className="container mx-auto px-4 mt-8 space-y-12">
 
         {!isSearching && featuredGames.length > 0 && (
-          <BannerHero games={featuredGames} />
+          <>
+            <BannerHero games={featuredGames} />
+            <Categories />
+          </>
         )}
-
-        <div className="flex gap-3 overflow-x-auto pb-4 hide-scrollbar -mx-4 px-4">
-          {categories.map((cat) => (
-            <Link
-              key={cat.name}
-              href={`/category/${encodeURIComponent(cat.name)}`}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold"
-            >
-              <CategoryIcon name={cat.name} className="w-4 h-4" />
-              {cat.name}
-              <span>{cat.count}</span>
-            </Link>
-          ))}
-        </div>
+        {!isSearching && featuredGames.length === 0 && <Categories />}
 
         {isSearching ? (
           <section>
