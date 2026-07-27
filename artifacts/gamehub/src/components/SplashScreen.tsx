@@ -5,14 +5,14 @@ export function SplashScreen({ children }: { children: React.ReactNode }) {
   const [showSplash, setShowSplash] = useState(false);
 
   useEffect(() => {
-    const hasSeen = sessionStorage.getItem("novahub_splash_seen");
+    const hasSeen = sessionStorage.getItem("legendleo_splash_seen");
     if (!hasSeen) {
       setShowSplash(true);
     }
   }, []);
 
   const handleAnimationComplete = () => {
-    sessionStorage.setItem("novahub_splash_seen", "true");
+    sessionStorage.setItem("legendleo_splash_seen", "true");
     setShowSplash(false);
   };
 
@@ -27,20 +27,35 @@ export function SplashScreen({ children }: { children: React.ReactNode }) {
             className="fixed inset-0 z-[100] bg-background flex flex-col items-center justify-center"
           >
             <motion.div
-              animate={{
-                boxShadow: ["0 0 0px hsl(var(--primary)/0)", "0 0 80px hsl(var(--primary)/0.5)", "0 0 0px hsl(var(--primary)/0)"]
+              animate={{ 
+                boxShadow: ["0 0 0px hsl(var(--primary)/0)", "0 0 80px hsl(var(--primary)/0.5)", "0 0 0px hsl(var(--primary)/0)"] 
               }}
               transition={{ duration: 0.8, repeat: Infinity, repeatType: "reverse" }}
-              className="relative rounded-3xl p-4"
+              className="relative rounded-full p-8"
             >
-              <motion.img
-                src="/novahub-wordmark.png"
-                alt="NovaHub"
-                initial={{ scale: 0.7, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ type: "spring", stiffness: 150, damping: 12 }}
-                className="w-64 md:w-80 drop-shadow-2xl"
-              />
+              <div className="flex items-center gap-4 text-6xl md:text-7xl">
+                <motion.span
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: "spring", stiffness: 200, damping: 10 }}
+                  className="drop-shadow-2xl"
+                >
+                  👑
+                </motion.span>
+                <div className="flex overflow-hidden">
+                  {"LEGENDLEO".split("").map((letter, i) => (
+                    <motion.span
+                      key={i}
+                      initial={{ y: 50, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ delay: 0.2 + i * 0.1, duration: 0.4 }}
+                      className="font-extrabold tracking-tighter text-white text-glow"
+                    >
+                      {letter}
+                    </motion.span>
+                  ))}
+                </div>
+              </div>
             </motion.div>
             <motion.div
               initial={{ width: 0 }}

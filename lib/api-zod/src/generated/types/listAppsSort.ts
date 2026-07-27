@@ -13,4 +13,5 @@ export const ListAppsSort = {
   newest: 'newest',
   popular: 'popular',
   rating: 'rating',
+  alphabetical: 'alphabetical',
 } as const;

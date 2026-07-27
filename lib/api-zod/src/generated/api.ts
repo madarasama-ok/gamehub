@@ -25,7 +25,7 @@ export const ListGamesQueryParams = zod.object({
   "featured": zod.coerce.boolean().optional(),
   "popular": zod.coerce.boolean().optional(),
   "minRating": zod.coerce.number().optional(),
-  "sort": zod.enum(['newest', 'popular', 'rating']).optional()
+  "sort": zod.enum(['newest', 'popular', 'rating', 'alphabetical']).optional()
 })
 
 export const ListGamesResponseItem = zod.object({
@@ -37,6 +37,7 @@ export const ListGamesResponseItem = zod.object({
   "rating": zod.number(),
   "platform": zod.string(),
   "size": zod.string(),
+  "sizeMb": zod.number().optional(),
   "version": zod.string(),
   "downloadUrl": zod.string(),
   "featured": zod.boolean(),
@@ -59,6 +60,7 @@ export const CreateGameBody = zod.object({
   "rating": zod.number().optional(),
   "platform": zod.string().optional(),
   "size": zod.string().optional(),
+  "sizeMb": zod.number().optional(),
   "version": zod.string().optional(),
   "downloadUrl": zod.string().optional(),
   "featured": zod.boolean().optional(),
@@ -75,6 +77,7 @@ export const CreateGameResponse = zod.object({
   "rating": zod.number(),
   "platform": zod.string(),
   "size": zod.string(),
+  "sizeMb": zod.number().optional(),
   "version": zod.string(),
   "downloadUrl": zod.string(),
   "featured": zod.boolean(),
@@ -125,6 +128,7 @@ export const GetGameResponse = zod.object({
   "rating": zod.number(),
   "platform": zod.string(),
   "size": zod.string(),
+  "sizeMb": zod.number().optional(),
   "version": zod.string(),
   "downloadUrl": zod.string(),
   "featured": zod.boolean(),
@@ -150,6 +154,7 @@ export const UpdateGameBody = zod.object({
   "rating": zod.number().optional(),
   "platform": zod.string().optional(),
   "size": zod.string().optional(),
+  "sizeMb": zod.number().optional(),
   "version": zod.string().optional(),
   "downloadUrl": zod.string().optional(),
   "featured": zod.boolean().optional(),
@@ -166,6 +171,7 @@ export const UpdateGameResponse = zod.object({
   "rating": zod.number(),
   "platform": zod.string(),
   "size": zod.string(),
+  "sizeMb": zod.number().optional(),
   "version": zod.string(),
   "downloadUrl": zod.string(),
   "featured": zod.boolean(),
@@ -192,6 +198,7 @@ export const TrackDownloadResponse = zod.object({
   "rating": zod.number(),
   "platform": zod.string(),
   "size": zod.string(),
+  "sizeMb": zod.number().optional(),
   "version": zod.string(),
   "downloadUrl": zod.string(),
   "featured": zod.boolean(),
@@ -211,7 +218,7 @@ export const ListAppsQueryParams = zod.object({
   "featured": zod.coerce.boolean().optional(),
   "popular": zod.coerce.boolean().optional(),
   "minRating": zod.coerce.number().optional(),
-  "sort": zod.enum(['newest', 'popular', 'rating']).optional()
+  "sort": zod.enum(['newest', 'popular', 'rating', 'alphabetical']).optional()
 })
 
 export const ListAppsResponseItem = zod.object({
@@ -224,6 +231,7 @@ export const ListAppsResponseItem = zod.object({
   "rating": zod.number(),
   "platform": zod.string(),
   "size": zod.string(),
+  "sizeMb": zod.number().optional(),
   "version": zod.string(),
   "downloadUrl": zod.string(),
   "featured": zod.boolean(),
@@ -247,6 +255,7 @@ export const CreateAppBody = zod.object({
   "rating": zod.number().optional(),
   "platform": zod.string().optional(),
   "size": zod.string().optional(),
+  "sizeMb": zod.number().optional(),
   "version": zod.string().optional(),
   "downloadUrl": zod.string().optional(),
   "featured": zod.boolean().optional(),
@@ -264,6 +273,7 @@ export const CreateAppResponse = zod.object({
   "rating": zod.number(),
   "platform": zod.string(),
   "size": zod.string(),
+  "sizeMb": zod.number().optional(),
   "version": zod.string(),
   "downloadUrl": zod.string(),
   "featured": zod.boolean(),
@@ -291,6 +301,7 @@ export const GetAppResponse = zod.object({
   "rating": zod.number(),
   "platform": zod.string(),
   "size": zod.string(),
+  "sizeMb": zod.number().optional(),
   "version": zod.string(),
   "downloadUrl": zod.string(),
   "featured": zod.boolean(),
@@ -317,6 +328,7 @@ export const UpdateAppBody = zod.object({
   "rating": zod.number().optional(),
   "platform": zod.string().optional(),
   "size": zod.string().optional(),
+  "sizeMb": zod.number().optional(),
   "version": zod.string().optional(),
   "downloadUrl": zod.string().optional(),
   "featured": zod.boolean().optional(),
@@ -334,6 +346,7 @@ export const UpdateAppResponse = zod.object({
   "rating": zod.number(),
   "platform": zod.string(),
   "size": zod.string(),
+  "sizeMb": zod.number().optional(),
   "version": zod.string(),
   "downloadUrl": zod.string(),
   "featured": zod.boolean(),
@@ -361,6 +374,7 @@ export const TrackAppDownloadResponse = zod.object({
   "rating": zod.number(),
   "platform": zod.string(),
   "size": zod.string(),
+  "sizeMb": zod.number().optional(),
   "version": zod.string(),
   "downloadUrl": zod.string(),
   "featured": zod.boolean(),

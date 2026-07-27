@@ -58,7 +58,7 @@ export default function GameDetail() {
       try {
         await navigator.share({
           title: game.title,
-          text: `Check out ${game.title} on NovaHub!`,
+          text: `Check out ${game.title} on LEGENDLEO!`,
           url: window.location.href,
         });
         toast({

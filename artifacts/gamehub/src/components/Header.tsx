@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 export type FilterState = {
   search: string;
   minRating?: number;
-  sort?: "newest" | "popular" | "rating";
+  sort?: "newest" | "popular" | "rating" | "alphabetical";
 };
 
 export function Header({ 
@@ -33,9 +33,9 @@ export function Header({
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-2 group shrink-0">
-            <img src="/novahub-circular-256.png" alt="NovaHub" className="w-9 h-9 object-contain" />
+            <span className="text-2xl drop-shadow-md">👑</span>
             <span className="font-extrabold text-xl tracking-tighter text-white group-hover:text-primary transition-colors text-glow">
-              NovaHub
+              LEGENDLEO
             </span>
           </Link>
 
@@ -115,6 +115,7 @@ export function Header({
                       <button onClick={() => setSort("popular")} className={`px-3 py-1.5 text-sm rounded-md transition-all ${sort === "popular" ? 'bg-primary text-primary-foreground' : 'bg-secondary/50 text-muted-foreground hover:bg-secondary'}`}>Más descargados</button>
                       <button onClick={() => setSort("rating")} className={`px-3 py-1.5 text-sm rounded-md transition-all ${sort === "rating" ? 'bg-primary text-primary-foreground' : 'bg-secondary/50 text-muted-foreground hover:bg-secondary'}`}>Mejor valorados</button>
                       <button onClick={() => setSort("newest")} className={`px-3 py-1.5 text-sm rounded-md transition-all ${sort === "newest" ? 'bg-primary text-primary-foreground' : 'bg-secondary/50 text-muted-foreground hover:bg-secondary'}`}>Más recientes</button>
+                      <button onClick={() => setSort("alphabetical")} className={`px-3 py-1.5 text-sm rounded-md transition-all ${sort === "alphabetical" ? 'bg-primary text-primary-foreground' : 'bg-secondary/50 text-muted-foreground hover:bg-secondary'}`}>A-Z</button>
                     </div>
                   </div>
                 </div>

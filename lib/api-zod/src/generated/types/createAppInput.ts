@@ -15,6 +15,7 @@ export interface CreateAppInput {
   rating?: number;
   platform?: string;
   size?: string;
+  sizeMb?: number;
   version?: string;
   downloadUrl?: string;
   featured?: boolean;

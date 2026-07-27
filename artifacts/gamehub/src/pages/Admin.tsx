@@ -28,6 +28,7 @@ const emptyForm = {
   size: "",
   version: "",
   downloadUrl: "#",
+  badge: "",
   featured: false,
   popular: false,
   featuresText: "",
@@ -133,6 +134,7 @@ export default function Admin() {
       size: form.size,
       version: form.version,
       downloadUrl: form.downloadUrl,
+      badge: form.badge,
       featured: form.featured,
       popular: form.popular,
     };
@@ -329,6 +331,16 @@ export default function Admin() {
                   />
                 </div>
               )}
+            </div>
+
+            <div>
+              <label className="text-xs font-bold text-muted-foreground uppercase mb-1 block">Etiqueta del juego</label>
+              <input
+                value={form.badge}
+                onChange={(e) => handleChange("badge", e.target.value)}
+                placeholder="Ej: 🔥 Popular, 🆕 Nuevo, 🎮 MOD"
+                className="w-full h-10 bg-secondary/50 border border-border/50 rounded-lg px-3 text-sm"
+              />
             </div>
 
             <div>

@@ -48,6 +48,8 @@ router.get("/games", async (req, res): Promise<void> => {
     query = query.orderBy(desc(gamesTable.downloadCount)) as typeof query;
   } else if (sort === "rating") {
     query = query.orderBy(desc(gamesTable.rating)) as typeof query;
+  } else if (sort === "alphabetical") {
+    query = query.orderBy(asc(gamesTable.title)) as typeof query;
   }
 
   const games = await query;

@@ -12,6 +12,7 @@ export const appsTable = pgTable("apps", {
   rating: real("rating").notNull().default(0),
   platform: text("platform").notNull().default("Android"),
   size: text("size").notNull().default(""),
+  sizeMb: integer("size_mb").notNull().default(0),
   version: text("version").notNull().default(""),
   downloadUrl: text("download_url").notNull().default("#"),
   featured: boolean("featured").notNull().default(false),

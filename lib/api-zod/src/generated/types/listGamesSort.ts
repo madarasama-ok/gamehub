@@ -13,4 +13,5 @@ export const ListGamesSort = {
   newest: 'newest',
   popular: 'popular',
   rating: 'rating',
+  alphabetical: 'alphabetical',
 } as const;

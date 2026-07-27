@@ -21,7 +21,7 @@ export default function StatsPage() {
             <h1 className="text-4xl font-black text-white text-glow mb-2 flex items-center gap-3">
               <TrendingUp className="w-8 h-8 text-primary" /> Analíticas
             </h1>
-            <p className="text-muted-foreground">Estadísticas en tiempo real de NovaHub</p>
+            <p className="text-muted-foreground">Estadísticas en tiempo real de LEGENDLEO</p>
           </div>
         </div>
 

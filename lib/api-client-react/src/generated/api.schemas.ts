@@ -18,6 +18,7 @@ export interface Game {
   rating: number;
   platform: string;
   size: string;
+  sizeMb?: number;
   version: string;
   downloadUrl: string;
   featured: boolean;
@@ -66,6 +67,7 @@ export interface App {
   rating: number;
   platform: string;
   size: string;
+  sizeMb?: number;
   version: string;
   downloadUrl: string;
   featured: boolean;
@@ -83,6 +85,7 @@ export interface CreateGameInput {
   rating?: number;
   platform?: string;
   size?: string;
+  sizeMb?: number;
   version?: string;
   downloadUrl?: string;
   featured?: boolean;
@@ -99,6 +102,7 @@ export interface CreateAppInput {
   rating?: number;
   platform?: string;
   size?: string;
+  sizeMb?: number;
   version?: string;
   downloadUrl?: string;
   featured?: boolean;
@@ -126,6 +130,7 @@ export const ListGamesSort = {
   newest: 'newest',
   popular: 'popular',
   rating: 'rating',
+  alphabetical: 'alphabetical',
 } as const;
 
 export type ListAppsParams = {
@@ -144,5 +149,6 @@ export const ListAppsSort = {
   newest: 'newest',
   popular: 'popular',
   rating: 'rating',
+  alphabetical: 'alphabetical',
 } as const;
 

@@ -61,7 +61,7 @@ paths:
           in: query
           schema:
             type: string
-            enum: [newest, popular, rating]
+            enum: [newest, popular, rating, alphabetical]
       responses:
         "200":
           description: List of games
@@ -205,7 +205,7 @@ paths:
           in: query
           schema:
             type: string
-            enum: [newest, popular, rating]
+            enum: [newest, popular, rating, alphabetical]
       responses:
         "200":
           description: List of apps
@@ -381,6 +381,8 @@ components:
           type: string
         size:
           type: string
+        sizeMb:
+          type: integer
         version:
           type: string
         downloadUrl:
@@ -511,6 +513,8 @@ components:
           type: string
         size:
           type: string
+        sizeMb:
+          type: integer
         version:
           type: string
         downloadUrl:
@@ -550,6 +554,8 @@ components:
           type: string
         size:
           type: string
+        sizeMb:
+          type: integer
         version:
           type: string
         downloadUrl:
@@ -587,6 +593,8 @@ components:
           type: string
         size:
           type: string
+        sizeMb:
+          type: integer
         version:
           type: string
         downloadUrl:
