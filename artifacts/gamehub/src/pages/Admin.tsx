@@ -12,6 +12,7 @@ const emptyForm = {
   category: "",
   developer: "",
   imageUrl: "",
+  badge: "",
   rating: "4.0",
   platform: "Android",
   size: "",
@@ -49,18 +50,19 @@ export default function Admin() {
       .filter(Boolean);
 
     const basePayload = {
-      title: form.title,
-      description: form.description,
-      category: form.category,
-      imageUrl: form.imageUrl,
-      rating: parseFloat(form.rating) || 0,
-      platform: form.platform,
-      size: form.size,
-      version: form.version,
-      downloadUrl: form.downloadUrl,
-      featured: form.featured,
-      popular: form.popular,
-    };
+  title: form.title,
+  description: form.description,
+  category: form.category,
+  imageUrl: form.imageUrl,
+  badge: form.badge,
+  rating: parseFloat(form.rating) || 0,
+  platform: form.platform,
+  size: form.size,
+  version: form.version,
+  downloadUrl: form.downloadUrl,
+  featured: form.featured,
+  popular: form.popular,
+};
 
     if (tab === "game") {
       createGame.mutate(
@@ -178,15 +180,25 @@ export default function Admin() {
             />
           </div>
 
-          <div>
-            <label className="text-xs font-bold text-muted-foreground uppercase mb-1 block">Descripción</label>
-            <textarea
-              required
-              value={form.description}
-              onChange={(e) => handleChange("description", e.target.value)}
-              className="w-full h-20 bg-secondary/50 border border-border/50 rounded-lg px-3 py-2 text-sm resize-none"
-            />
-          </div>
+            <div>
+              <label className="text-xs font-bold text-muted-foreground uppercase mb-1 block">Badge</label>
+              <input
+                value={form.badge}
+                onChange={(e) => handleChange("badge", e.target.value)}
+                placeholder="Ej: NUEVO, TOP, OFERTA"
+                className="w-full h-10 bg-secondary/50 border border-border/50 rounded-lg px-3 text-sm"
+              />
+            </div>
+
+            <div>
+              <label className="text-xs font-bold text-muted-foreground uppercase mb-1 block">Descripción</label>
+              <textarea
+                required
+                value={form.description}
+                onChange={(e) => handleChange("description", e.target.value)}
+                className="w-full h-20 bg-secondary/50 border border-border/50 rounded-lg px-3 py-2 text-sm resize-none"
+              />
+            </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
