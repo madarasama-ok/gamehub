@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { Gamepad2, Play, Music, Tv, Youtube } from "lucide-react";
+import { Gamepad2, Play, Home, Tv, Youtube } from "lucide-react";
 
 export function BottomNav() {
   return (
@@ -20,10 +20,10 @@ export function BottomNav() {
           </div>
         </Link>
 
-        <Link href="/spotify">
+        <Link href="/">
           <div className="flex flex-col items-center text-xs text-muted-foreground">
-            <Music size={24}/>
-            <span>Spotify</span>
+            <Home size={24}/>
+            <span>Inicio</span>
           </div>
         </Link>
 
