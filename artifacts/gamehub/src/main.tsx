@@ -6,7 +6,7 @@ import App from './App';
 
 import './index.css';
 
-setBaseUrl("http://3.142.219.9:3001");
+setBaseUrl("http://15.228.45.98");
 
 setAuthTokenGetter(() => {
   return localStorage.getItem("admin_key");

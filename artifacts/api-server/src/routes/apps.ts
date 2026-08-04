@@ -1,5 +1,5 @@
 import { Router, type IRouter } from "express";
-import { eq, ilike, and, sql, gte, desc } from "drizzle-orm";
+import { eq, ilike, and, sql, gte, desc, asc } from "drizzle-orm";
 import { db, appsTable } from "@workspace/db";
 import { requireAdmin } from "../lib/require-admin";
 import {
@@ -54,6 +54,7 @@ router.get("/apps", async (req, res): Promise<void> => {
   const apps = await query;
   res.json(ListAppsResponse.parse(apps.map(a => ({
     ...a,
+    badge: a.badge ?? "",
     createdAt: a.createdAt.toISOString(),
   }))));
 });
@@ -98,6 +99,33 @@ router.put("/apps/:id", requireAdmin, async (req, res): Promise<void> => {
   }
 
   res.json(UpdateAppResponse.parse({ ...updated, createdAt: updated.createdAt.toISOString() }));
+});
+
+
+// DELETE /apps/:id
+router.delete("/apps/:id", requireAdmin, async (req, res): Promise<void> => {
+  const raw = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+  const id = parseInt(raw, 10);
+
+  if (!Number.isInteger(id) || id <= 0) {
+    res.status(400).json({ error: "Invalid app ID" });
+    return;
+  }
+
+  const [deleted] = await db
+    .delete(appsTable)
+    .where(eq(appsTable.id, id))
+    .returning();
+
+  if (!deleted) {
+    res.status(404).json({ error: "App not found" });
+    return;
+  }
+
+  res.json({
+    message: "App deleted successfully",
+    id: deleted.id,
+  });
 });
 
 // GET /apps/:id

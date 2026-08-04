@@ -12,6 +12,7 @@ export interface HealthStatus {
 export interface Game {
   id: number;
   title: string;
+  badge: string | null;
   description: string;
   category: string;
   imageUrl: string;

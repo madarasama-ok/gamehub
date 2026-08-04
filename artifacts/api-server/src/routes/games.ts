@@ -55,6 +55,8 @@ router.get("/games", async (req, res): Promise<void> => {
   const games = await query;
   res.json(ListGamesResponse.parse(games.map(g => ({
     ...g,
+    badge: g.badge ?? null,
+    badgeColor: g.badgeColor ?? null,
     createdAt: g.createdAt.toISOString(),
   }))));
 });

@@ -5,6 +5,8 @@ import { z } from "zod/v4";
 export const gamesTable = pgTable("games", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
+  badge: text("badge"),
+  badgeColor: text("badge_color"),
   description: text("description").notNull(),
   category: text("category").notNull(),
   imageUrl: text("image_url").notNull(),

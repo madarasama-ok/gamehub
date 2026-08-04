@@ -31,6 +31,8 @@ export const ListGamesQueryParams = zod.object({
 export const ListGamesResponseItem = zod.object({
   "id": zod.number(),
   "title": zod.string(),
+  "badge": zod.string().nullable(),
+  "badgeColor": zod.string().nullable(),
   "description": zod.string(),
   "category": zod.string(),
   "imageUrl": zod.string(),
@@ -54,6 +56,8 @@ export const ListGamesResponse = zod.array(ListGamesResponseItem)
  */
 export const CreateGameBody = zod.object({
   "title": zod.string(),
+  "badge": zod.string().nullable().optional(),
+  "badgeColor": zod.string().nullable().optional(),
   "description": zod.string(),
   "category": zod.string(),
   "imageUrl": zod.string(),
@@ -71,6 +75,8 @@ export const CreateGameBody = zod.object({
 export const CreateGameResponse = zod.object({
   "id": zod.number(),
   "title": zod.string(),
+  "badge": zod.string().nullable(),
+  "badgeColor": zod.string().nullable(),
   "description": zod.string(),
   "category": zod.string(),
   "imageUrl": zod.string(),
@@ -122,6 +128,8 @@ export const GetGameParams = zod.object({
 export const GetGameResponse = zod.object({
   "id": zod.number(),
   "title": zod.string(),
+  "badge": zod.string().nullable(),
+  "badgeColor": zod.string().nullable(),
   "description": zod.string(),
   "category": zod.string(),
   "imageUrl": zod.string(),
@@ -148,6 +156,8 @@ export const UpdateGameParams = zod.object({
 
 export const UpdateGameBody = zod.object({
   "title": zod.string(),
+  "badge": zod.string().nullable().optional(),
+  "badgeColor": zod.string().nullable().optional(),
   "description": zod.string(),
   "category": zod.string(),
   "imageUrl": zod.string(),
@@ -165,6 +175,8 @@ export const UpdateGameBody = zod.object({
 export const UpdateGameResponse = zod.object({
   "id": zod.number(),
   "title": zod.string(),
+  "badge": zod.string().nullable(),
+  "badgeColor": zod.string().nullable(),
   "description": zod.string(),
   "category": zod.string(),
   "imageUrl": zod.string(),
@@ -192,6 +204,8 @@ export const TrackDownloadParams = zod.object({
 export const TrackDownloadResponse = zod.object({
   "id": zod.number(),
   "title": zod.string(),
+  "badge": zod.string().nullable(),
+  "badgeColor": zod.string().nullable(),
   "description": zod.string(),
   "category": zod.string(),
   "imageUrl": zod.string(),
@@ -224,6 +238,8 @@ export const ListAppsQueryParams = zod.object({
 export const ListAppsResponseItem = zod.object({
   "id": zod.number(),
   "title": zod.string(),
+  "badge": zod.string().nullable(),
+  "badgeColor": zod.string().nullable(),
   "description": zod.string(),
   "category": zod.string(),
   "developer": zod.string(),
@@ -248,6 +264,8 @@ export const ListAppsResponse = zod.array(ListAppsResponseItem)
  */
 export const CreateAppBody = zod.object({
   "title": zod.string(),
+  "badge": zod.string().nullable(),
+  "badgeColor": zod.string().nullable(),
   "description": zod.string(),
   "category": zod.string(),
   "developer": zod.string().optional(),
@@ -266,6 +284,8 @@ export const CreateAppBody = zod.object({
 export const CreateAppResponse = zod.object({
   "id": zod.number(),
   "title": zod.string(),
+  "badge": zod.string().nullable(),
+  "badgeColor": zod.string().nullable(),
   "description": zod.string(),
   "category": zod.string(),
   "developer": zod.string(),
@@ -294,6 +314,8 @@ export const GetAppParams = zod.object({
 export const GetAppResponse = zod.object({
   "id": zod.number(),
   "title": zod.string(),
+  "badge": zod.string().nullable(),
+  "badgeColor": zod.string().nullable(),
   "description": zod.string(),
   "category": zod.string(),
   "developer": zod.string(),
@@ -321,6 +343,8 @@ export const UpdateAppParams = zod.object({
 
 export const UpdateAppBody = zod.object({
   "title": zod.string(),
+  "badge": zod.string().nullable(),
+  "badgeColor": zod.string().nullable(),
   "description": zod.string(),
   "category": zod.string(),
   "developer": zod.string().optional(),
@@ -339,6 +363,8 @@ export const UpdateAppBody = zod.object({
 export const UpdateAppResponse = zod.object({
   "id": zod.number(),
   "title": zod.string(),
+  "badge": zod.string().nullable(),
+  "badgeColor": zod.string().nullable(),
   "description": zod.string(),
   "category": zod.string(),
   "developer": zod.string(),
@@ -367,6 +393,8 @@ export const TrackAppDownloadParams = zod.object({
 export const TrackAppDownloadResponse = zod.object({
   "id": zod.number(),
   "title": zod.string(),
+  "badge": zod.string().nullable(),
+  "badgeColor": zod.string().nullable(),
   "description": zod.string(),
   "category": zod.string(),
   "developer": zod.string(),

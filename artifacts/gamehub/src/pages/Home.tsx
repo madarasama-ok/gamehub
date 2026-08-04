@@ -12,7 +12,6 @@ import {
 import { useFavorites } from "@/hooks/use-favorites";
 import { BannerHero } from "@/components/BannerHero";
 import { Link } from "wouter";
-import { CategoryIcon } from "@/components/CategoryIcon";
 import { Categories } from "@/components/Categories";
 import { BottomNav } from "@/components/BottomNav";
 function toArray<T>(data: unknown): T[] {
@@ -85,19 +84,6 @@ export default function Home() {
             </>
         )}
 
-        <div className="flex gap-3 overflow-x-auto pb-4 hide-scrollbar -mx-4 px-4">
-          {categories.map((cat) => (
-            <Link
-              key={cat.name}
-              href={`/category/${encodeURIComponent(cat.name)}`}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold"
-            >
-              <CategoryIcon name={cat.name} className="w-4 h-4" />
-              {cat.name}
-              <span>{cat.count}</span>
-            </Link>
-          ))}
-        </div>
 
         {isSearching ? (
           <section>

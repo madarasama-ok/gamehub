@@ -13,6 +13,7 @@ const emptyForm = {
   developer: "",
   imageUrl: "",
   badge: "",
+  badgeColor: "#a855f7",
   rating: "4.0",
   platform: "Android",
   size: "",
@@ -54,7 +55,8 @@ export default function Admin() {
   description: form.description,
   category: form.category,
   imageUrl: form.imageUrl,
-  badge: form.badge,
+  badge: form.badge || null,
+  badgeColor: form.badge ? form.badgeColor : null,
   rating: parseFloat(form.rating) || 0,
   platform: form.platform,
   size: form.size,
@@ -180,15 +182,42 @@ export default function Admin() {
             />
           </div>
 
-            <div>
-              <label className="text-xs font-bold text-muted-foreground uppercase mb-1 block">Badge</label>
-              <input
-                value={form.badge}
-                onChange={(e) => handleChange("badge", e.target.value)}
-                placeholder="Ej: NUEVO, TOP, OFERTA"
-                className="w-full h-10 bg-secondary/50 border border-border/50 rounded-lg px-3 text-sm"
-              />
+            <div className="grid grid-cols-[1fr_auto] gap-3 items-end">
+              <div>
+                <label className="text-xs font-bold text-muted-foreground uppercase mb-1 block">
+                  Badge
+                </label>
+
+                <input
+                  value={form.badge}
+                  onChange={(e) => handleChange("badge", e.target.value)}
+                  placeholder="Ej: NUEVO, TOP, OFERTA"
+                  className="w-full h-10 bg-secondary/50 border border-border/50 rounded-lg px-3 text-sm"
+                />
+              </div>
+
+              <div>
+                <label className="text-xs font-bold text-muted-foreground uppercase mb-1 block">
+                  Color
+                </label>
+
+                <div className="flex items-center gap-2 h-10 bg-secondary/50 border border-border/50 rounded-lg px-2">
+                  <input
+                    type="color"
+                    value={form.badgeColor}
+                    onChange={(e) => handleChange("badgeColor", e.target.value)}
+                    className="w-8 h-8 cursor-pointer bg-transparent border-0 p-0"
+                    title="Elegir color del badge"
+                  />
+
+                  <span
+                    className="w-5 h-5 rounded-full border border-white/20"
+                    style={{ backgroundColor: form.badgeColor }}
+                  />
+                </div>
+              </div>
             </div>
+
 
             <div>
               <label className="text-xs font-bold text-muted-foreground uppercase mb-1 block">Descripción</label>
